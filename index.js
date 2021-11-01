@@ -1,4 +1,6 @@
 // Based on: https://observablehq.com/@d3/variable-color-line
+const margin = ({top: 20, right: 20, bottom: 30, left:40});
+
 function createChart(width = 640, height = 480) {
   getData().then((data) => {
     var line = d3.line()
@@ -11,19 +13,19 @@ function createChart(width = 640, height = 480) {
 
     var x = d3.scaleTime()
       .domain(d3.extent(data, d => d.date))
-      .rangeRound([0, width]);
+      .rangeRound([margin.left, width - margin.right]);
 
     var y = d3.scaleLinear()
       .domain(d3.extent(data, d => d.avg))
-      .rangeRound([0, height]);
+      .rangeRound([margin.top, height - margin.bottom]);
 
     var xAxis = g => g
-      .attr("transform", `translate(0,${height - 20})`)
+      .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x))
       .call(g => g.select(".domain").remove());
 
     var yAxis = g => g
-      .attr("transform", `translate(${20},0)`)
+      .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y))
       .call(g => g.select(".domain").remove());
 
@@ -36,16 +38,16 @@ function createChart(width = 640, height = 480) {
         .join("line")
           .attr("x1", d => 0.5 + x(d))
           .attr("x2", d => 0.5 + x(d))
-          .attr("y1", 0)
-          .attr("y2", height))
+          .attr("y1", margin.top)
+          .attr("y2", height - margin.bottom))
       .call(g => g.append("g")
         .selectAll("line")
         .data(y.ticks())
         .join("line")
           .attr("y1", d => 0.5 + y(d))
           .attr("y2", d => 0.5 + y(d))
-          .attr("x1", 0)
-          .attr("x2", width));
+          .attr("x1", margin.left)
+          .attr("x2", width - margin.right));
 
     svg.append("g")
       .call(xAxis);

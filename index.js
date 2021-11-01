@@ -14,7 +14,7 @@ function createChart(width = 640, height = 480) {
       .rangeRound([0, width]);
 
     var y = d3.scaleLinear()
-      .domain(d3.extent(data, d => d.avg))
+      .domain([0, 99])
       .rangeRound([0, height]);
 
     var xAxis = g => g

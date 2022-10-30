@@ -6,7 +6,7 @@ function createChart(width = 640, height = 480) {
     var line = d3.line()
       .curve(d3.curveStep)
       .x(d => x(d.date))
-      .y(d => y(d.avg))
+      .y(d => y(d.runningAverage))
 
     var svg = d3.select("body").append("svg")
       .attr("viewBox", [0, 0, width, height]);
@@ -71,12 +71,26 @@ function createChart(width = 640, height = 480) {
 
 function getData() {
   const parseDate = d3.timeParse("%m/%d/%Y");
-  return Object.assign(d3.csv("data.csv", (d) => {
+  return Object.assign(d3.csv("https://docs.google.com/spreadsheets/d/10AxlIC8kL_4yTR-_ef3sfCNpc1xwrxyzhiKeXbDHlEI/export?format=csv&id=10AxlIC8kL_4yTR-_ef3sfCNpc1xwrxyzhiKeXbDHlEI&gid=1736085946", (d) => {
     return {
-      date: parseDate(d["Date"]),
-      place: +d["Final Place"],
-      avg: +d["Running Average"],
-      kos: +d["K.O.s"],
+      date            : parseDate(d["Date"]),
+      finalPlace      : +d["Final Place"],
+      runningAverage  : +d["Running Average"],
+      kos             : +d["K.O.s"],
+      singles         : +d["Singles"],
+      doubles         : +d["Doubles"],
+      triples         : +d["Triples"],
+      tetrisLineClears: +d["Tetris Line Clears"],
+      totalLineClears : +d["Total Line Clears"],
+      tSpins          : +d["T-Spins"],
+      miniTSpins      : +d["Mini T-Spins"],
+      tSpinSingles    : +d["T-Spin Singles"],
+      tSpinDoubles    : +d["T-Spin Doubles"],
+      tSpinTriples    : +d["T-Spin Triples"],
+      totalTSpins     : +d["Total T-Spins"],
+      maxCombo        : +d["Max Combo"],
+      backToBacks     : +d["Back-to-Backs"],
+      allClears       : +d["All Clears"],
     };
   }), {
     y: "Final Place",

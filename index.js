@@ -97,9 +97,6 @@ function getData() {
       maxCombo        : +d["Max Combo"],
       backToBacks     : +d["Back-to-Backs"],
       allClears       : +d["All Clears"],
-    };
-  }), {
-    y: "Final Place",
-    colors: ["black", "green"]
-  });
+    }
+  }));
 }

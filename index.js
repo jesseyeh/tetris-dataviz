@@ -21,7 +21,13 @@ function createChart(width = 640, height = 480) {
 
     var xAxis = g => g
       .attr("transform", `translate(0,${height - margin.bottom})`)
-      .call(d3.axisBottom(x))
+      .call(d3.axisBottom(x).tickFormat(function(date) {
+        if (d3.timeYear(date) < date) {
+          return d3.timeFormat('%b')(date);
+        } else {
+          return d3.timeFormat('%Y')(date);
+        }
+      }))
       .call(g => g.select(".domain").remove());
 
     var yAxis = g => g
